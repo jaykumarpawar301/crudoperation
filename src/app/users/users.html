@@ -1,0 +1,129 @@
+
+<div class="container mt-4">
+
+  <h2 class="text-center mb-4">User Management</h2>
+
+  <!-- Add User Form -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-header bg-primary text-white">
+      {{ isEdit ? 'Edit User' : 'Add New User' }}
+    </div>
+
+    <div class="card-body">
+      <form #userForm="ngForm" (ngSubmit)="addUser()">
+
+        <div class="row">
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Name</label>
+            <input
+              type="text"
+              class="form-control"
+              name="name"
+              [(ngModel)]="user.name"
+              placeholder="Enter name"
+              required
+            />
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Email ID</label>
+            <input
+              type="email"
+              class="form-control"
+              name="email"
+              [(ngModel)]="user.email"
+              placeholder="Enter email"
+              required
+              email
+            />
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Mobile Number</label>
+            <input
+              type="tel"
+              class="form-control"
+              name="mobile"
+              [(ngModel)]="user.mobile"
+              placeholder="Enter 10-digit mobile"
+              pattern="[0-9]{10}"
+              maxlength="10"
+              required
+            />
+          </div>
+
+        </div>
+
+        <button
+          type="submit"
+          class="btn btn-primary me-2"
+          [disabled]="userForm.invalid">
+          {{ isEdit ? 'Update User' : 'Add User' }}
+        </button>
+
+        <button
+          *ngIf="isEdit"
+          type="button"
+          class="btn btn-secondary"
+          (click)="cancelEdit()">
+          Cancel
+        </button>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- Users List -->
+  <div class="card shadow-sm">
+    <div class="card-header bg-dark text-white">
+      Users List
+    </div>
+
+    <div class="card-body table-responsive">
+      <table class="table table-bordered table-striped
+                    table-hover align-middle">
+
+        <thead class="table-light">
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email ID</th>
+            <th>Mobile Number</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let u of users">
+            <td>{{ u.id }}</td>
+            <td>{{ u.name }}</td>
+            <td>{{ u.email }}</td>
+            <td>{{ u.mobile }}</td>
+            <td>
+              <button
+                class="btn btn-sm btn-warning me-2"
+                (click)="editUser(u)">
+                Edit
+              </button>
+
+              <button
+                class="btn btn-sm btn-danger"
+                (click)="deleteUser(u.id)">
+                Delete
+              </button>
+            </td>
+          </tr>
+
+          <tr *ngIf="users.length === 0">
+            <td colspan="5" class="text-center">
+              No users found.
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+    </div>
+  </div>
+
+</div>
